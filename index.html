@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brawl Nexus</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a0f;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #ui {
+      text-align: center;
+      z-index: 10;
+    }
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff4d4d, #ff9900);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+    p.tagline {
+      color: #888;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      letter-spacing: 2px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 2.5rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      margin: 0.4rem;
+      letter-spacing: 1px;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.85; transform: scale(1.04); }
+    .btn-primary { background: linear-gradient(135deg, #ff4d4d, #ff9900); color: #fff; }
+    .btn-secondary { background: #1e1e2e; color: #ccc; border: 1px solid #333; }
+    #room-box {
+      margin-top: 1.5rem;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    #room-box input {
+      background: #1e1e2e;
+      border: 1px solid #444;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-align: center;
+      width: 220px;
+    }
+    #room-box input::placeholder { color: #555; }
+    #status { color: #ff9900; font-size: 0.85rem; min-height: 1.2rem; }
+    canvas {
+      display: none;
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #hud {
+      display: none;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 12px 20px;
+      display: none;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .player-hud {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 180px;
+    }
+    .player-hud.right { align-items: flex-end; }
+    .hud-name { font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; }
+    .hud-bar-bg {
+      width: 180px;
+      height: 10px;
+      background: #222;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .hud-bar { height: 100%; border-radius: 3px; transition: width 0.15s; }
+    .hp-bar { background: linear-gradient(90deg, #ff4d4d, #ff7b00); }
+    .mp-bar { background: linear-gradient(90deg, #3399ff, #00ccff); }
+    #round-banner {
+      display: none;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #ff9900;
+      text-shadow: 0 0 30px #ff9900;
+      z-index: 30;
+      pointer-events: none;
+      letter-spacing: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <h1>Brawl Nexus</h1>
+    <p class="tagline">The Street Never Sleeps</p>
+    <button class="btn btn-primary" onclick="startLocal()">⚔️ Local 2-Player</button>
+    <button class="btn btn-secondary" onclick="showMulti()">🌐 Online Multiplayer</button>
+    <div id="room-box">
+      <input id="room-input" placeholder="Enter Room Code" maxlength="8" />
+      <button class="btn btn-primary" onclick="joinRoom()">Join / Create Room</button>
+      <div id="status"></div>
+    </div>
+  </div>
+
+  <canvas id="game"></canvas>
+
+  <div id="hud">
+    <div class="player-hud" id="hud-p1">
+      <div class="hud-name" style="color:#ff4d4d">P1 — KADE</div>
+      <div class="hud-bar-bg"><div class="hud-bar hp-bar" id="p1-hp" style="width:100%"></div></div>
+      <div class="hud-bar-bg"><div class="hud-bar mp-bar" id="p1-mp" style="width:100%"></div></div>
+    </div>
+    <div id="round-banner"></div>
+    <div class="player-hud right" id="hud-p2">
+      <div class="hud-name" style="color:#3399ff">P2 — VEX</div>
+      <div class="hud-bar-bg"><div class="hud-bar hp-bar" id="p2-hp" style="width:100%"></div></div>
+      <div class="hud-bar-bg"><div class="hud-bar mp-bar" id="p2-mp" style="width:100%"></div></div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
