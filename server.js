@@ -1,6 +1,4 @@
-// Brawl Nexus — Multiplayer Server (Node.js + Socket.io)
-// Deploy to Render.com / Railway.app (free tier)
-
+// Brawl Nexus — Multiplayer Server v2
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -8,57 +6,56 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: '*' }
-});
+const io = new Server(server, { cors: { origin: '*' } });
 
 app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
-const rooms = {}; // roomCode -> [socket1, socket2]
+const rooms = {};
 
 io.on('connection', (socket) => {
-  console.log('Player connected:', socket.id);
-
   socket.on('join', ({ room }) => {
-    const code = room.toUpperCase();
+    const code = String(room || '').toUpperCase().slice(0, 8);
+    if (!code) return socket.emit('status', { msg: 'Enter a room code.' });
     if (!rooms[code]) rooms[code] = [];
-    const r = rooms[code];
+    const list = rooms[code];
+    if (list.length >= 2) return socket.emit('status', { msg: 'Room is full. Try a different code.' });
 
-    if (r.length >= 2) {
-      socket.emit('status', { msg: 'Room full.' });
-      return;
-    }
-
-    r.push(socket);
+    list.push(socket.id);
     socket.join(code);
     socket.roomCode = code;
-    socket.role = r.length === 1 ? 'p1' : 'p2';
+    socket.role = list.length === 1 ? 'p1' : 'p2';
     socket.emit('role', { role: socket.role, room: code });
 
-    console.log(`${socket.role.toUpperCase()} joined room ${code}`);
-
-    if (r.length === 2) {
-      io.to(code).emit('start');
-      console.log(`Room ${code} — GAME START`);
+    if (list.length === 1) {
+      socket.emit('status', { msg: `Room ${code} created. Waiting for opponent...` });
+    } else {
+      io.to(code).emit('status', { msg: 'Opponent found! Match starting...' });
+      setTimeout(() => io.to(code).emit('start'), 800);
     }
   });
 
   socket.on('input', (data) => {
     if (!socket.roomCode) return;
-    socket.to(socket.roomCode).emit('input', data);
+    // Only forward validated boolean inputs to reduce payload size
+    socket.to(socket.roomCode).emit('input', {
+      left: !!data.left,
+      right: !!data.right,
+      up: !!data.up,
+      attack: !!data.attack,
+      special: !!data.special,
+      dash: !!data.dash
+    });
   });
 
   socket.on('disconnect', () => {
-    console.log('Player disconnected:', socket.id);
     const code = socket.roomCode;
-    if (code && rooms[code]) {
-      rooms[code] = rooms[code].filter(s => s.id !== socket.id);
-      if (rooms[code].length === 0) delete rooms[code];
-      else io.to(code).emit('disconnect');
-    }
+    if (!code || !rooms[code]) return;
+    rooms[code] = rooms[code].filter(id => id !== socket.id);
+    socket.to(code).emit('peer-left');
+    if (rooms[code].length === 0) delete rooms[code];
   });
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Brawl Nexus server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Brawl Nexus server on port ${PORT}`));

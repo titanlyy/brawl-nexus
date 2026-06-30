@@ -1,12 +1,17 @@
-# 🥊 Brawl Nexus — MVP
+# 🥊 Brawl Nexus — MVP Plus
 
 > Browser-based multiplayer beat-'em-up. No install. Just brawl.
 
-## Play Instantly
+## What's new in MVP Plus
 
-Deploy this repo to **Render.com** in 2 minutes (see below) — then share the URL with a friend.
-
----
+- Screen shake on every hit and KO
+- Hit stop (impact freeze) for satisfying combat feel
+- Floating damage numbers
+- Best-of-3 rounds with persistent score
+- Ground dash move for faster engagements
+- Pause (P) and restart (R) keyboard controls
+- Clearer online room status messages
+- Lean network payloads — only boolean inputs sent between peers
 
 ## Controls
 
@@ -15,40 +20,25 @@ Deploy this repo to **Render.com** in 2 minutes (see below) — then share the U
 | Move | `A` / `D` | `←` / `→` |
 | Jump | `W` | `↑` |
 | Attack | `F` | `K` |
-| Special | `G` | `L` |
+| Special | `G` (costs 30 MP) | `L` (costs 30 MP) |
+| Dash | `Left Shift` | `/` |
+| Pause | `P` | `P` |
+| Restart | `R` | `R` |
 
-> **Online Multiplayer**: Both players enter the same Room Code on the hosted URL.
+## Online Multiplayer
 
----
+Both players open the hosted URL, click **Online Multiplayer**, type the **same room code**, and the match starts automatically when both are in.
 
-## Deploy to Render.com (Free, No Card Needed)
+## Deploy to Render (Free, No Card)
 
 1. Go to [render.com](https://render.com) → **New Web Service**
-2. Connect your GitHub → select `brawl-nexus`
+2. Connect GitHub → select `brawl-nexus`
 3. Build command: `npm install`
 4. Start command: `npm start`
-5. Click **Deploy** — done in ~90 seconds
+5. Deploy — live in ~90 seconds
 
-Share your Render URL with a friend. Enter the same Room Code to play online.
+## Tech
 
----
-
-## Game Features (MVP)
-
-- ✅ 2-player local brawl (one keyboard)
-- ✅ Online multiplayer via Room Codes
-- ✅ HP + MP bars with live HUD
-- ✅ Combo system (up to 5x)
-- ✅ Special moves (costs 30 MP)
-- ✅ Platforming with mid-air combat
-- ✅ Particle hit effects
-- ✅ Round reset system
-- ✅ Fully browser-based, zero install
-
----
-
-## Stack
-
-- **Frontend**: Vanilla Canvas 2D + JavaScript
-- **Backend**: Node.js + Express + Socket.io
-- **Deploy**: Render.com (free tier)
+- Vanilla Canvas 2D + JavaScript (no frameworks)
+- Node.js + Express + Socket.io
+- Hosted on Render.com free tier
