@@ -16,80 +16,44 @@
       min-height: 100vh;
       overflow: hidden;
     }
-    #ui {
-      text-align: center;
-      z-index: 10;
-      padding: 24px;
-      max-width: 720px;
-    }
+    #ui { text-align: center; z-index: 10; padding: 24px; max-width: 720px; }
     h1 {
-      font-size: 3.2rem;
-      font-weight: 900;
+      font-size: 3.2rem; font-weight: 900;
       background: linear-gradient(90deg, #ff4d4d, #ff9900);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.4rem;
     }
     .tagline { color: #8d8d9c; margin-bottom: 1.2rem; letter-spacing: 2px; }
     .lead { color: #c8c8d6; line-height: 1.5; margin-bottom: 1.4rem; }
     .btn {
-      display: inline-block;
-      padding: 0.85rem 1.4rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      border: none;
-      margin: 0.35rem;
-      letter-spacing: 0.8px;
-      transition: transform 0.12s, opacity 0.2s, box-shadow 0.2s;
+      display: inline-block; padding: 0.85rem 1.4rem; border-radius: 6px;
+      font-size: 1rem; font-weight: 800; cursor: pointer; border: none;
+      margin: 0.35rem; letter-spacing: 0.8px;
+      transition: transform 0.12s, opacity 0.2s;
       box-shadow: 0 8px 24px rgba(0,0,0,0.25);
     }
     .btn:hover { opacity: 0.92; transform: translateY(-1px) scale(1.02); }
     .btn-primary { background: linear-gradient(135deg, #ff4d4d, #ff9900); color: #fff; }
     .btn-secondary { background: #1c1d2e; color: #d3d3de; border: 1px solid #33364f; }
     #room-box {
-      margin-top: 1rem;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.65rem;
+      margin-top: 1rem; display: none; flex-direction: column; align-items: center; gap: 0.65rem;
     }
     #room-box input {
-      background: #1e1e2e;
-      border: 1px solid #444;
-      color: #fff;
-      padding: 0.7rem 1rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      text-align: center;
-      width: 240px;
+      background: #1e1e2e; border: 1px solid #444; color: #fff;
+      padding: 0.7rem 1rem; border-radius: 6px; font-size: 1rem; text-align: center; width: 240px;
     }
     #status, #tips { min-height: 1.2rem; font-size: 0.92rem; }
     #status { color: #ffb347; }
     #tips { color: #9da3b2; margin-top: 0.4rem; }
-    canvas {
-      display: none;
-      position: absolute;
-      inset: 0;
-      margin: auto;
-      image-rendering: crisp-edges;
-    }
+    canvas { display: none; position: absolute; inset: 0; margin: auto; image-rendering: crisp-edges; }
     #hud {
-      display: none;
-      position: absolute;
-      inset: 0 0 auto 0;
-      padding: 12px 18px;
-      justify-content: space-between;
-      align-items: flex-start;
-      pointer-events: none;
-      z-index: 20;
+      display: none; position: absolute; inset: 0 0 auto 0;
+      padding: 12px 18px; justify-content: space-between; align-items: flex-start;
+      pointer-events: none; z-index: 20;
     }
     .player-hud { display: flex; flex-direction: column; gap: 4px; min-width: 190px; }
     .player-hud.right { align-items: flex-end; }
-    .hud-name { font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; }
+    .hud-name  { font-size: 0.82rem; font-weight: 800; letter-spacing: 1px; }
     .hud-score { font-size: 0.78rem; color: #d7d7e2; }
     .hud-bar-bg {
       width: 190px; height: 11px; background: #23243a; border-radius: 99px; overflow: hidden;
@@ -98,37 +62,19 @@
     .hud-bar { height: 100%; border-radius: 99px; transition: width 0.12s; }
     .hp-bar { background: linear-gradient(90deg, #ff4d4d, #ff7b00); }
     .mp-bar { background: linear-gradient(90deg, #3399ff, #00ccff); }
-    #top-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      min-width: 220px;
-    }
+    #top-center { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 240px; }
     #round-banner {
-      display: none;
-      font-size: 2.3rem;
-      font-weight: 900;
-      color: #ff9900;
-      text-shadow: 0 0 24px rgba(255,153,0,0.75);
-      letter-spacing: 3px;
+      display: none; font-size: 2.3rem; font-weight: 900; color: #ff9900;
+      text-shadow: 0 0 24px rgba(255,153,0,0.75); letter-spacing: 3px;
     }
     #meta { font-size: 0.78rem; color: #c6cbda; letter-spacing: 1px; }
+    #ping-display { font-size: 0.72rem; color: #6e9e6e; letter-spacing: 0.5px; min-height: 1rem; }
     #controls {
-      display: none;
-      position: absolute;
-      inset: auto 14px 14px auto;
-      z-index: 25;
-      gap: 8px;
+      display: none; position: absolute; inset: auto 14px 14px auto; z-index: 25; gap: 8px;
     }
     .tiny {
-      font-size: 0.78rem;
-      background: rgba(13,13,20,0.74);
-      border: 1px solid #2f3558;
-      color: #fff;
-      padding: 0.55rem 0.8rem;
-      border-radius: 6px;
-      cursor: pointer;
+      font-size: 0.78rem; background: rgba(13,13,20,0.74); border: 1px solid #2f3558;
+      color: #fff; padding: 0.55rem 0.8rem; border-radius: 6px; cursor: pointer;
     }
   </style>
 </head>
@@ -136,14 +82,14 @@
   <div id="ui">
     <h1>Brawl Nexus</h1>
     <p class="tagline">The Street Never Sleeps</p>
-    <p class="lead">Fast browser beat-'em-up. Start local instantly, or share a room code and fight online.</p>
+    <p class="lead">Fast browser beat-'em-up. Local or online — share a room code and brawl.</p>
     <button class="btn btn-primary" onclick="startLocal()">⚔️ Local 2-Player</button>
     <button class="btn btn-secondary" onclick="showMulti()">🌐 Online Multiplayer</button>
     <div id="room-box">
       <input id="room-input" placeholder="Enter Room Code" maxlength="8" />
       <button class="btn btn-primary" onclick="joinRoom()">Join / Create Room</button>
       <div id="status"></div>
-      <div id="tips">P1: WASD + F(attack) + G(special) + Shift(dash)<br>P2: Arrows + K(attack) + L(special) + /(dash)</div>
+      <div id="tips">P1: WASD + F(atk) G(special) Shift(dash)&nbsp;&nbsp;|&nbsp;&nbsp;P2: Arrows + K(atk) L(special) /(dash)</div>
     </div>
   </div>
 
@@ -158,7 +104,8 @@
     </div>
     <div id="top-center">
       <div id="round-banner"></div>
-      <div id="meta">Best of 3 · P to pause · R to restart</div>
+      <div id="meta">Best of 3 · 60s · P pause · R restart</div>
+      <div id="ping-display"></div>
     </div>
     <div class="player-hud right" id="hud-p2">
       <div class="hud-name" style="color:#74a0ff">P2 — VEX</div>

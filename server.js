@@ -1,12 +1,12 @@
-// Brawl Nexus — Multiplayer Server v2
+// Brawl Nexus — Server v3
 const express = require('express');
-const http = require('http');
+const http    = require('http');
 const { Server } = require('socket.io');
-const path = require('path');
+const path    = require('path');
 
-const app = express();
+const app    = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: '*' } });
+const io     = new Server(server, { cors: { origin: '*' } });
 
 app.use(express.static(path.join(__dirname)));
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
@@ -35,18 +35,21 @@ io.on('connection', (socket) => {
     }
   });
 
+  // Relay validated inputs only
   socket.on('input', (data) => {
     if (!socket.roomCode) return;
-    // Only forward validated boolean inputs to reduce payload size
     socket.to(socket.roomCode).emit('input', {
-      left: !!data.left,
-      right: !!data.right,
-      up: !!data.up,
-      attack: !!data.attack,
+      left:    !!data.left,
+      right:   !!data.right,
+      up:      !!data.up,
+      attack:  !!data.attack,
       special: !!data.special,
-      dash: !!data.dash
+      dash:    !!data.dash
     });
   });
+
+  // Ping-pong for latency display
+  socket.on('ping_game', () => socket.emit('pong_game'));
 
   socket.on('disconnect', () => {
     const code = socket.roomCode;
